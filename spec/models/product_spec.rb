@@ -1,13 +1,19 @@
 require 'spec_helper'
+require File.expand_path('app/models/product')
 
 describe Product do
+  
+  before :each do
+    Product.delete_all
+  end
+  
   it "product attributes must not be empty" do
     product = Product.new
-    assert product.invalid?
-    assert product.errors[:title].any?
-    assert product.errors[:description].any?
-    assert product.errors[:price].any?
-    assert product.errors[:image_url].any?
+    product.should be_invalid
+    product.errors[:title].should_not be_empty
+    product.errors[:description].should_not be_empty
+    product.errors[:price].should_not be_empty
+    product.errors[:image_url].should_not be_empty
   end
 
   it "product price must be positive" do
@@ -15,17 +21,15 @@ describe Product do
                           description: "yyy",
                           image_url:   "zzz.jpg")
     product.price = -1
-    assert product.invalid?
-    assert_equal "must be greater than or equal to 0.01", 
-      product.errors[:price].join('; ')
+    product.should be_invalid
+    product.errors[:price].join('; ').should == "must be greater than or equal to 0.01"
 
     product.price = 0
-    assert product.invalid?
-    assert_equal "must be greater than or equal to 0.01", 
-      product.errors[:price].join('; ')
+    product.should be_invalid
+    product.errors[:price].join('; ').should == "must be greater than or equal to 0.01"
 
     product.price = 1
-    assert product.valid?
+    product.should be_valid
   end
 
   def new_product(image_url)
@@ -41,11 +45,11 @@ describe Product do
     bad = %w{ fred.doc fred.gif/more fred.gif.more }
 
     ok.each do |name|
-      assert new_product(name).valid?, "#{name} shouldn't be invalid"
+      new_product(name).should be_valid
     end
 
     bad.each do |name|
-      assert new_product(name).invalid?, "#{name} shouldn't be valid"
+      new_product(name).should be_invalid
     end
   end
 
@@ -56,8 +60,8 @@ describe Product do
                               image_url:   "fred.gif")
     duplicate = Product.new(product.attributes)
 
-    assert !duplicate.save
-    assert_equal "has already been taken", duplicate.errors[:title].join('; ')
+    duplicate.save.should be_false
+    duplicate.errors[:title].join('; ').should == "has already been taken"
   end
 
   it "product is not valid without a unique title - i18n" do
@@ -67,8 +71,7 @@ describe Product do
                               image_url:   "fred.gif")
     duplicate = Product.new(product.attributes)
     
-    assert !duplicate.save
-    assert_equal I18n.translate('activerecord.errors.messages.taken'),
-                 duplicate.errors[:title].join('; ')
+    duplicate.save.should be_false
+    duplicate.errors[:title].join('; ').should == I18n.translate('activerecord.errors.messages.taken')
   end
 end
