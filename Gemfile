@@ -34,9 +34,9 @@ gem 'capistrano'
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
-group :test do
+group :development, :test do
   # Pretty printed test output
   gem 'turn', :require => false
-  gem 'minitest'
+  gem 'rspec-rails'
 end
 gem 'will_paginate', '~> 3.0'
