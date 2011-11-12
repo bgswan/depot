@@ -7,12 +7,16 @@
 # Visit http://www.pragmaticprogrammer.com/titles/rails4 for more book information.
 #---
 require 'test_helper'
+require File.expand_path('app/models/cart')
+require File.expand_path('app/models/line_item')
+require File.expand_path('app/models/product')
 
 class CartTest < ActiveSupport::TestCase
   def setup
-    @cart  = Cart.create
-    @book_one = products(:ruby)
-    @book_two  = products(:two)
+    Product.delete_all
+    @cart = Cart.create!
+    @book_one = Product.create!(title: "book one title", description: "book one", image_url: "/book1.gif", price: 10.00)
+    @book_two = Product.create!(title: "book two title", description: "book two", image_url: "/book2.gif", price: 15.00)  
   end
   
   test "add unique products" do
