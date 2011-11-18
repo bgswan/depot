@@ -1,17 +1,12 @@
 #!/bin/bash
 
-function set_up {
-  cd ~/Development/depot
-  git co master
-}
-
 function show {
   clear
   figlet -w 120 $1
   read
 }
 
-set_up
+git co master
 show "the rails backlash"
 show "#lolrails"
 show "slow tests"
