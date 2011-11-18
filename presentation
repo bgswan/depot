@@ -1,0 +1,38 @@
+#!/bin/bash
+
+function set_up {
+  cd ~/Development/depot
+  git co master
+}
+
+function show {
+  clear
+  figlet -w 120 $1
+  read
+}
+
+set_up
+show "the rails backlash"
+show "#lolrails"
+show "slow tests"
+show "what's the problem?"
+show "depot app"
+bash --login
+show "depot rspec'd"
+git co with_rspec  
+bash --login
+show "lose the rake"
+bash --login
+show "fast tests"
+git co fast_tests
+bash --login
+show "a step too far?"
+show "brittle tests"
+show "require active_record"
+git co explicit_require
+bash --login
+show "do extract class"
+show "do write less tests"
+show "Objects on Rails"
+show "questions?"
+
