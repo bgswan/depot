@@ -11,6 +11,6 @@ This app has the following branches:
   
 Also included is an experiment in using the terminal as the presentation tool. The shell script /presentation uses the figlet tool to display a banner message on the console and creates a new shell at the point in the presentation when a demo is required.
 
-To install figlet on Mac OS X:
+To install figlet on Mac OS X using Homebrew:
   
   brew install figlet
